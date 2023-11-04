@@ -18,7 +18,6 @@ const File_type = db.define('file_type', {
         defaultValue: true
    }
 }, {
-    timestamps: false,
     tableName: 'file_type'
 });
 

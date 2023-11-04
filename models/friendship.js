@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 const db = require('./db');
+const { DataTypes } = require('sequelize')
 
-const Users = require('../models/users');
-
+const Users = require('../models/users')
 const Friendship = db.define("friendship", {
     id: {
         type: Sequelize.INTEGER,
@@ -29,9 +29,18 @@ const Friendship = db.define("friendship", {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true
-   }    
+    },    
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
+    }   
 }, {
-    timestamps: true,
     tableName: 'friendship'
 });
 

@@ -1,0 +1,5 @@
+1- trocar todos new error por ApiError, utilizar o statusCode respectivo
+2- utilizar res somente na controller, se precisar finalizar a requisição que seja por algum erro 
+e sendo assim usar throw new ApiError
+3- refatorar todas as rotas com o mesmo estilo da userCreate
+4- pesquisar e implementar tokenJWT baseado no BoilerPlate

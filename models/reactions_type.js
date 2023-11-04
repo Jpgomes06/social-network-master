@@ -17,7 +17,6 @@ const Reactions_type = db.define("reactions_type", {
         defaultValue: true
    }
 }, {
-    timestamps: false,
     tableName: 'reactions_type'
 });
 

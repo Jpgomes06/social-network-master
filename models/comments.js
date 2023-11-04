@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require('./db');
+const { DataTypes } = require('sequelize')
 
 const Users = require('../models/users');
 const Post = require('../models/post.js');
@@ -34,11 +35,19 @@ const Comments = db.define("comments", {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true
-   }
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
+    }
 }, {
-    timestamps: false,
     tableName: 'comments'
-
 });
 
 // Comments.sync(); //a função sync() cria a tabela no banco de dados caso nao esteja criada
