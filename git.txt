@@ -1,0 +1,6 @@
+git branch -> verificar qual branch se encontra
+git checkout -b nome_branch -> criar uma nova branch a partir da branch atual
+git push origin nome_branch -> enviar para o repositorio remoto a branch
+git add nome_arquivo -> adicionando o commit no repositorio local
+git commit -m mensagem_a_ser_adicionada -> dar um nome ao commit
+
