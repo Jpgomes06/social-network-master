@@ -4,7 +4,7 @@ const targetpublicService = require('../services/targetpublicService');
 class targetublicController {
   async create(req, res) {
     const { type } = req.body;
-    const target = await targetpublicService.create(type);
+    const target = await targetpublicService.create(type);   
     return res.status(httpStatus.CREATED).json({      
       data: target
     });    

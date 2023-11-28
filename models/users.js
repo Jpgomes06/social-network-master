@@ -36,8 +36,4 @@ const Users = db.define("user", {
     }
 });
 
-//Users.sync(); //a função sync() cria a tabela no banco de dados caso nao esteja criada
 module.exports = Users;
-
-
-// Desabilita as colunas createdAt e updatedAt

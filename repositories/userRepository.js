@@ -1,4 +1,5 @@
 const User = require('../models/users');
+const Token = require('../models/token');
 const httpStatus = require('../utils/statusCodes');
 const Sequelize = require('../models/db');
 const bcrypt = require('bcrypt');
@@ -23,31 +24,44 @@ class UserRepository {
     return User.findOne({ where : {email: email}});     
   };
   async getById(id){
-    const user = await User.findOne({ where: { id } });
-    if (!user) throw new Error('User not found');
-    return user;
+    return User.findOne({
+      where: { id: id },
+      attributes: ['id', 'full_name', 'email']
+  });   
+  };
+  async tokenPr(token){
+    return Token.findOne({
+      where: { token: token }
+  });   
   };
   async getAll(){
-    const users = await User.findAll();
-    return users
+    return await User.findAll({
+      attributes: ['id', 'full_name', 'email']
+    });    
   };
-  async update(id, full_name, email, password) {           
-    const t = await Sequelize.transaction();               
-    const user = await User.findOne({ where: { id } });
-    if (!user) throw new Error('User not found');
-    user.set({
-        "full_name": full_name,
-        "email": email,
-        "password": password
-    });
-    await user.save({ transaction: t });    
-    await t.commit()            
+  async update(user, full_name, email) {    
+    try {
+      return Sequelize.transaction(async(t) => {
+        return User.update({
+          full_name: full_name, email: email },
+          {where : { id: id }},
+          { transaction: t }        
+       )});       
+    } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while updating user');      
+    };         
   };
   async delete (id) {
-    const user = await User.findOne({ where: { id } });
-    if (!user) throw new Error('User not found');        
-    await user.destroy();
-    return true;        
+    try {
+      return Sequelize.transaction(async(t) => {
+        User.update({
+          is_active: false},
+          {where : { id: id }},          
+          );
+      });
+    } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting user');    
+    };           
   };    
 };
 module.exports = new UserRepository();

@@ -32,7 +32,7 @@ const Reactions = db.define("reactions", {
     },
     post_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references:{
             model: Post,
             key: 'id'
@@ -54,8 +54,15 @@ const Reactions = db.define("reactions", {
         allowNull: false
     }
 }, {
-    tableName: 'reactions'
-});
+    tableName: 'reactions',
+    hooks: {
+        afterCreate: (record) => {            
+            delete record.dataValues.is_active;
+            delete record.dataValues.created_at;
+            delete record.dataValues.updated_at;
+        }
+    }
+});   
 
 // Reactions.sync(); //a função sync() cria a tabela no banco de dados caso nao esteja criada
 

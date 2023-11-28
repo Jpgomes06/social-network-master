@@ -1,31 +1,38 @@
 const Friendship = require('../models/Friendship');
 const httpStatus = require('../utils/statusCodes');
 const Sequelize = require('../models/db');
+const ApiError = require('../utils/ApiError');
 
 class friendshipRepository {
   async create(principal_user_id, friend_id) {
-    const t = await Sequelize.transaction();
-    const existingfriendship = await Friendship.findOne({ where : {principal_user_id: principal_user_id, friend_id: friend_id}});
-    if (existingfriendship) throw new Error('friendship already exists');      
-    const friend = await Friendship.create(
-        {
-          principal_user_id,
-          friend_id           
-        },
-          { transaction: t }
-      );
-    await t.commit();
-    return friend;
+    try {
+      return Sequelize.transaction(async (t) => {
+        return Friendship.create(
+          {
+            principal_user_id,
+            friend_id           
+          },{ transaction: t }
+        )});
+    } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating friendship');
+    };
   };
   async getAll(){
-    const friends = await Friendship.findAll();
-    return friends
+    return Friendship.findAll();
   };   
-  async delete (id) {       
-    const friend = await Friendship.findByPk(id);
-    if (!friend) throw new Error('friendship not found');        
-    await friend.destroy();
-    return true;  
+  async getById(id){
+    return Friendship.findOne({ where : {id: id}});
+  };
+  async deleteUp(id, is_active) { 
+    try {
+      return Sequelize.transaction(async(t) => {
+        Friendship.update({
+          is_active
+        }, {where: { id: id }});
+      });
+    } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting friendship');      
+    };            
   };    
 };
 module.exports = new friendshipRepository();

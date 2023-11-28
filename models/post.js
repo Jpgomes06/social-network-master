@@ -41,6 +41,11 @@ const Post = db.define("post", {
         allowNull: false,
         defaultValue: true
     },
+    is_active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+   },
     created_at: {
         type: DataTypes.DATE,
         defaultValue: new Date(),
@@ -52,7 +57,14 @@ const Post = db.define("post", {
         allowNull: false
     }
 }, {        
-    tableName: 'post'
+    tableName: 'post',
+    hooks: {
+        afterCreate: (record) => {
+            delete record.dataValues.is_active;
+            delete record.dataValues.created_at;
+            delete record.dataValues.updated_at;
+        }
+    }
 });
 
 // Post.sync(); //a função sync() cria a tabela no banco de dados caso nao esteja criada

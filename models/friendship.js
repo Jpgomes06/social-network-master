@@ -1,8 +1,7 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const db = require('./db');
-const { DataTypes } = require('sequelize')
-
 const Users = require('../models/users')
+
 const Friendship = db.define("friendship", {
     id: {
         type: Sequelize.INTEGER,

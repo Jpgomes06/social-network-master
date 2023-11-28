@@ -6,7 +6,6 @@ const reactionsSchema = require('../validation/reactionsValidation.js')
 
 router.post('/', validation(reactionsSchema), reactionsController.create);
 router.get('/', reactionsController.getAll);
-router.get('/:id', reactionsController.getByid);
 router.put('/:id', validation(reactionsSchema), reactionsController.update);
 router.delete('/:id', reactionsController.delete);
 

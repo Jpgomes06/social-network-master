@@ -1,6 +1,7 @@
 const httpStatus = require('../utils/statusCodes');
 const userService = require('../services/userService');
 const auth = require('../services/authService');
+const GenerateTokens = require('../services/tokenService');
 
 class UserController {
   async create(req, res) {
@@ -13,10 +14,22 @@ class UserController {
   };
   async login(req, res) {
     const { email, password } = req.body;
-    await auth.loginUser(email, password);
+    const user = await auth.loginUser(email, password);
+    const token = await GenerateTokens.generateAuthTokens(user);
+    console.log(token)
     return res.status(httpStatus.OK).json({
-      message: 'Login successfully!'
-    })      
+      message: 'Login successfully!',
+      token: token
+    });      
+  };
+  async tokenRefresh(req, res) {   
+    const { authorization: token } = req.headers;
+    const findToken = await userService.TokenFind(token);
+    const tokenRefreshResult = await GenerateTokens.verifyTokenAndRefresh(findToken.dataValues);        
+    return res.status(httpStatus.OK).json({
+        message: 'Token refreshed successfully!',
+        newToken: tokenRefreshResult
+    });
   };
   async getByid(req, res) {
     const { id } = req.params;    
@@ -24,14 +37,16 @@ class UserController {
     return res.status(httpStatus.OK).json(user);
   };
   async getAll(req, res) {    
-    const users = await userService.getUsers();      
+    const { authorization: token } = req.headers;
+    await GenerateTokens.verifyToken(token);
+    const users = await userService.getAll();      
     return res.status(httpStatus.OK).json(users);
-  };
+  };  
   async update(req, res) {
     const { id } = req.params;  
     const {  full_name, email } = req.body; 
     await userService.update(id, full_name, email);
-    return res.status(httpStatus.OK).json({
+    return res.status(httpStatus.OK).json({      
       message: "User updated successfully"
     });  
   };

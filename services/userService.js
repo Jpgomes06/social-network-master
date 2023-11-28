@@ -11,7 +11,14 @@ class UserService {
     return UserRepository.create(full_name, email, hashedPassword);
   };
   async getById(id) {
-    return UserRepository.getById(id);
+    const findId = await UserRepository.getById(id);   
+    if (!findId) throw new ApiError(httpStatus.NOT_FOUND,'User not found');
+    return findId;
+  };
+  async TokenFind(token) {
+    const tokenBd = await UserRepository.tokenPr(token); 
+    if (!tokenBd) throw new ApiError(httpStatus.NOT_FOUND,'Token not found');
+    return tokenBd;
   };
   async getAll() {
     return UserRepository.getAll();
@@ -20,6 +27,7 @@ class UserService {
     return UserRepository.update(id, full_name, email);
   };
   async delete(id) {
+    await this.getById(id);  
     return UserRepository.delete(id);
   };
 };

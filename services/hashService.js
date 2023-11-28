@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt')
-const httpStatus = require('../utils/statusCodes');
-const ApiError = require('../utils/ApiError');
-const userRepository = require('../repositories/userRepository');
+const bcrypt = require('bcrypt');
 
 class HashService {
-  async hash (password) { return bcrypt.hash(password, 10) };      
+  async hash (password) { return bcrypt.hash(password, 10) }; 
+  async compare (password, hashedPassword) {
+    return bcrypt.compare(password, hashedPassword)
+  };     
 }; 
 
 module.exports = new HashService();
