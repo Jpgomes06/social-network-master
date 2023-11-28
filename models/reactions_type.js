@@ -17,8 +17,12 @@ const Reactions_type = db.define("reactions_type", {
         defaultValue: true
    }
 }, {
-    timestamps: false,
-    tableName: 'reactions_type'
+    tableName: 'reactions_type',
+    hooks: {
+        afterCreate: (record) => {            
+            delete record.dataValues.is_active;
+        }
+    }
 });
 
 // Reactions_type.sync(); //a função sync() cria a tabela no banco de dados caso nao esteja criada

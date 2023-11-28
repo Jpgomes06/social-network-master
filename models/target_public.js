@@ -18,8 +18,12 @@ const Target_public = db.define("target_public", {
         defaultValue: true
    }
 }, {
-    timestamps: true,
-    tableName: 'target_public'
+    tableName: 'target_public',
+    hooks: {
+        afterCreate: (record) => {            
+            delete record.dataValues.is_active;
+        }
+    }
 });
 
 // Target_public.sync(); //a função sync() cria a tabela no banco de dados caso nao esteja criada

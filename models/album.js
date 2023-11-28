@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require('./db');
+const { DataTypes } = require('sequelize');
 
 const Target_public = require("./target_public");
 
@@ -26,9 +27,18 @@ const Album = db.define('album', {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true
-   }
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
+    }
 }, {
-    timestamps: false,
     tableName: 'album'
 });
 

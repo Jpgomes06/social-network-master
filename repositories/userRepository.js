@@ -1,67 +1,67 @@
 const User = require('../models/users');
+const Token = require('../models/token');
 const httpStatus = require('../utils/statusCodes');
 const Sequelize = require('../models/db');
+const bcrypt = require('bcrypt');
+const ApiError = require('../utils/ApiError');
 
-class Repository {
-    async createUser(full_name, email) {
-        const t = await Sequelize.transaction();
-
-        console.log(full_name, email)
-
-      const user = await User.create(
-          {
-              full_name,
-              email
-           },
-           { transaction: t }
-         );
-      await t.commit();
-      return user;
+class UserRepository {
+  async create(full_name, email, hashedPassword) {
+    try {
+      return Sequelize.transaction(async (t) => {
+        return User.create(
+        {
+            full_name,
+            email,
+            password: hashedPassword
+        }, { transaction: t });      
+      });
+    } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating user');
     };
-
-    async getById(id){
-        const user = await User.findOne({ where: { id } });
-        return user;
-    };
-    async getAll(){
-        const users = await User.findAll();
-        return users
-    };
-    
-    async update(req) {           
-        const t = await Sequelize.transaction();
-        const { id } = req.params
-        const {  full_name, user_name, password, profile_image, 
-            email, birth_date, zip_code, address, city, neighborhood, state } = req.body;
-        const user = await User.findByPk(id, { transaction: t });
-        user.set({
-            "full_name": full_name,
-            "user_name" : user_name,
-            "password" :password,
-            "profile_image": profile_image,
-            "email": email,
-            "birth_date": birth_date,
-            "zip_code": zip_code,
-            "address": address,
-            "city": city,
-            "neighborhood": neighborhood,
-            "state": state
-        });
-
-        await user.save({ transaction: t });    
-        await t.commit()            
-    };
-
-    async deleteUSer (id) {
-        const user = await User.findOne({ where: { id } });
-        if (user) {
-          await user.destroy();
-          return true;
-        }
-        return false;
-    };
-    
-}
-
-
-module.exports = new Repository();
+  }; 
+  async getByEmail(email){
+    return User.findOne({ where : {email: email}});     
+  };
+  async getById(id){
+    return User.findOne({
+      where: { id: id },
+      attributes: ['id', 'full_name', 'email']
+  });   
+  };
+  async tokenPr(token){
+    return Token.findOne({
+      where: { token: token }
+  });   
+  };
+  async getAll(){
+    return await User.findAll({
+      attributes: ['id', 'full_name', 'email']
+    });    
+  };
+  async update(user, full_name, email) {    
+    try {
+      return Sequelize.transaction(async(t) => {
+        return User.update({
+          full_name: full_name, email: email },
+          {where : { id: id }},
+          { transaction: t }        
+       )});       
+    } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while updating user');      
+    };         
+  };
+  async delete (id) {
+    try {
+      return Sequelize.transaction(async(t) => {
+        User.update({
+          is_active: false},
+          {where : { id: id }},          
+          );
+      });
+    } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting user');    
+    };           
+  };    
+};
+module.exports = new UserRepository();

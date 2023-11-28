@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require('./db');
+const { DataTypes } = require('sequelize');
 
 const Post = require("../models/post.js");
 const Album = require("../models/album.js");
@@ -19,7 +20,7 @@ const Album_item = db.define("album_item", {
             key: 'id'
         }       
     },
-    album_item:{
+    album_id:{
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -31,9 +32,18 @@ const Album_item = db.define("album_item", {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: false
     }
-}, {
-    timestamps: false,
+}, {    
     tableName: 'album_item'
 });
 

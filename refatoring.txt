@@ -1,0 +1,24 @@
+user - ok
+targetpublic - ok
+reactionstype - ok
+reactions - ok
+post - ok
+friendship -ok 
+filetype - ok
+comments - ok
+album -ok
+albumItem - ok
+
+const httpStatus = require('../utils/statusCodes');
+const ApiError = require('../utils/ApiError');
+
+
+  async getById(id){
+    return User.findOne({ where: { id } });   
+  };
+
+try {
+      return Sequelize.transaction(async(t) => {});
+} catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while ');      
+    };
