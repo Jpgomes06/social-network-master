@@ -14,7 +14,7 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating target public');
-        }
+        };
     };
     async getAll(){
         return TargetPublic.findAll(
@@ -31,8 +31,8 @@ class Repository {
     };
     async delete(id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return TargetPublic.update(
+            await Sequelize.transaction(async (t) => {
+                await TargetPublic.update(
                     { is_active: false },
                     {
                         where: {id: id},
@@ -42,8 +42,8 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting a target public');
-        }
+        };
     };
-}
+};
 
 module.exports = new Repository();

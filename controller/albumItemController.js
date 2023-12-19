@@ -2,25 +2,25 @@ const httpStatus = require('../utils/statusCodes');
 const AlbumItemService = require('../services/albumItemService');
 
 class AlbumItemController {
-    async createAlbumItem(req, res) {
+    async create(req, res) {
         const { post_id, album_id } = req.body;
-        const albumItem = await AlbumItemService.createAlbumItem(post_id, album_id);
+        const albumItem = await AlbumItemService.create(post_id, album_id);
         return res.status(httpStatus.CREATED).json({
             message: 'Album item created successfully!',
             data: albumItem
         });
-    }
-    async getAlbumItems(req, res) {
-        const albumItem = await AlbumItemService.getAllAlbumItem();
-        return res.status(httpStatus.OK).json(albumItem);
-    }
-    async deleteAlbumItem(req, res) {
+    };
+    async getAll(req, res) {
+        const albumItems = await AlbumItemService.getAll();
+        return res.status(httpStatus.OK).json(albumItems);
+    };
+    async delete(req, res) {
         const { id } = req.params;
-        await AlbumItemService.deleteAlbumItem(id);
+        await AlbumItemService.delete(id);
         return res.status(httpStatus.OK).json({
             details: "Album item deleted successfully"
         });
-    }
-}
+    };
+};
 
 module.exports = new AlbumItemController();

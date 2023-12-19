@@ -2,38 +2,38 @@ const httpStatus = require('../utils/statusCodes');
 const postService = require('../services/postService');
 
 class PostController {
-    async createPost(req, res) {
+    async create(req, res) {
         const { description, user_id, target_id, type_id } = req.body;
-        const post = await postService.createPost(description, user_id, target_id, type_id);
+        const post = await postService.create(description, user_id, target_id, type_id);
         return res.status(httpStatus.CREATED).json({
             message: 'Post created successfully!',
             data: post
         });
-    }
-    async getPostById(req, res) {
+    };
+    async getById(req, res) {
         const { id } = req.params;
-        const post = await postService.getPostById(id);
-        return res.status(httpStatus.OK).json(post);
-    }
-    async getPosts(req, res) {
-        const posts = await postService.getAllPosts();
+        const postById = await postService.getById(id);
+        return res.status(httpStatus.OK).json(postById);
+    };
+    async getAll(req, res) {
+        const posts = await postService.getAll();
         return res.status(httpStatus.OK).json(posts);
-    }
-    async updatePost(req, res) {
+    };
+    async update(req, res) {
         const { id } = req.params;
         const { description, user_id, target_id, type_id } = req.body;
-        await postService.updatePost(id, description, user_id, target_id, type_id);
+        await postService.update(id, description, user_id, target_id, type_id);
         return res.status(httpStatus.OK).json({
             details: "Post updated successfully"
         });
-    }
-    async deletePost(req, res) {
+    };
+    async delete(req, res) {
         const { id } = req.params;
-        await postService.deletePost(id);
+        await postService.delete(id);
         return res.status(httpStatus.OK).json({
             details: "Post deleted successfully"
         });
-    }
-}
+    };
+};
 
 module.exports = new PostController();

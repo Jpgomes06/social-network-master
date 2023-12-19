@@ -3,17 +3,17 @@ const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 
 class ReactionsTypeService {
-    async createReactionType(description) {
+    async create(description) {
         return await Repository.create(description);
     };
-    async getAllReactionsType() {
+    async getAll() {
         return Repository.getAll();
     };
-    async deleteReactionType(id) {
-        const reactionsType = await Repository.getById(id);
-        if (!reactionsType) throw new ApiError(httpStatus.NOT_FOUND, 'Reaction type not found');
+    async delete(id) {
+        const reactionsTypeId = await Repository.getById(id);
+        if (!reactionsTypeId) throw new ApiError(httpStatus.NOT_FOUND, 'Reaction type not found');
         return Repository.delete(id);
     };
-}
+};
 
 module.exports = new ReactionsTypeService();

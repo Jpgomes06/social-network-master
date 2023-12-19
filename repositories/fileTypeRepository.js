@@ -14,7 +14,7 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating a new file type');
-        }
+        };
     };
     async getAll(){
         return FileType.findAll();
@@ -26,11 +26,11 @@ class Repository {
                 attributes: ['id', 'type', 'is_active']
             }
         );
-    }
+    };
     async delete (id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return FileType.update(
+            await Sequelize.transaction(async (t) => {
+                await FileType.update(
                     { is_active: false },
                     {
                         where: {id: id},
@@ -40,8 +40,8 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating a new file type');
-        }
+        };
     };
-}
+};
 
 module.exports = new Repository();

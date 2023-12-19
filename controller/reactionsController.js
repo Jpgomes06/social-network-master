@@ -2,38 +2,38 @@ const httpStatus = require('../utils/statusCodes');
 const reactionsService = require('../services/reactionsService');
 
 class ReactionsController {
-    async createReaction(req, res) {
+    async create(req, res) {
         const { user_id, reactions_type_id, post_id } = req.body;
-        const reaction = await reactionsService.createReaction(user_id, reactions_type_id, post_id);
+        const reaction = await reactionsService.create(user_id, reactions_type_id, post_id);
         return res.status(httpStatus.CREATED).json({
             message: 'Reaction created successfully!',
             data: reaction
         });
-    }
-    async getReactionById(req, res) {
+    };
+    async getById(req, res) {
         const { id } = req.params;
-        const reaction = await reactionsService.getReactionById(id);
+        const reaction = await reactionsService.getById(id);
         return res.status(httpStatus.OK).json(reaction);
-    }
-    async getReactions(req, res) {
-        const reactions = await reactionsService.getAllReactions();
+    };
+    async getAll(req, res) {
+        const reactions = await reactionsService.getAll();
         return res.status(httpStatus.OK).json(reactions);
-    }
-    async updateReaction(req, res) {
+    };
+    async update(req, res) {
         const { id } = req.params;
         const { user_id, reactions_type_id, post_id } = req.body;
-        await reactionsService.updateReaction(id, user_id, reactions_type_id, post_id);
+        await reactionsService.update(id, user_id, reactions_type_id, post_id);
         return res.status(httpStatus.OK).json({
             details: "Reaction updated successfully"
         });
-    }
-    async deleteReaction(req, res) {
+    };
+    async delete(req, res) {
         const { id } = req.params;
-        await reactionsService.deleteReaction(id);
+        await reactionsService.delete(id);
         return res.status(httpStatus.OK).json({
             details: "Reaction deleted successfully"
         });
-    }
-}
+    };
+};
 
 module.exports = new ReactionsController();

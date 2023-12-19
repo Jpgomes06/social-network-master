@@ -15,7 +15,7 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating album item');
-        }
+        };
     };
     async getById(id){
         return AlbumItem.findOne(
@@ -32,8 +32,8 @@ class Repository {
     };
     async delete (id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return await AlbumItem.update(
+            await Sequelize.transaction(async (t) => {
+                await await AlbumItem.update(
                     { is_active: false },
                     {
                         where: {id: id},
@@ -43,9 +43,8 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting album item');
-        }
+        };;
     };
-
-}
+};
 
 module.exports = new Repository();

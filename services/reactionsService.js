@@ -4,27 +4,27 @@ const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 
 class ReactionsService {
-    async createReaction(user_id, reactions_type_id, post_id) {
+    async create(user_id, reactions_type_id, post_id) {
         return Repository.create(user_id, reactions_type_id, post_id);
     };
-    async getReactionById(id) {
-        const reaction = await Repository.getById(id);
-        if (!reaction) throw new ApiError(httpStatus.NOT_FOUND,'Reaction not found');
-        return reaction;
+    async getById(id) {
+        const reactionById = await Repository.getById(id);
+        if (!reactionById) throw new ApiError(httpStatus.NOT_FOUND,'Reaction not found');
+        return reactionById;
     };
-    async getAllReactions() {
+    async getAll() {
         return Repository.getAll();
     };
-    async updateReaction(id, user_id, reactions_type_id, post_id) {
-        const reaction = await Repository.getById(id);
-        if (!reaction) throw new ApiError(httpStatus.NOT_FOUND,'Reaction not found');
+    async update(id, user_id, reactions_type_id, post_id) {
+        const reactionById = await Repository.getById(id);
+        if (!reactionById) throw new ApiError(httpStatus.NOT_FOUND,'Reaction not found');
         return Repository.update(id, user_id, reactions_type_id, post_id);
     };
-    async deleteReaction(id) {
-        const reaction = await Repository.getById(id);
-        if (!reaction) throw new ApiError(httpStatus.NOT_FOUND,'Reaction not found');
+    async delete(id) {
+        const reactionById = await Repository.getById(id);
+        if (!reactionById) throw new ApiError(httpStatus.NOT_FOUND,'Reaction not found');
         return Repository.delete(id);
     };
-}
+};
 
 module.exports = new ReactionsService();

@@ -4,21 +4,21 @@ const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 
 class FileTypeService {
-    async createFileType(type) {
+    async create(type) {
         return Repository.create(type)
     };
     async getById(id){
-        const fileType = await Repository.getById(id);
-        if (!fileType) throw new ApiError(httpStatus.NOT_FOUND, 'File type not found!');
-        return fileType;
-    }
-    async getAllFileType() {
+        const fileTypeById = await Repository.getById(id);
+        if (!fileTypeById) throw new ApiError(httpStatus.NOT_FOUND, 'File type not found!');
+        return fileTypeById;
+    };
+    async getAll() {
         return Repository.getAll();
     };
-    async deleteFileType(id) {
+    async delete(id) {
         await this.getById(id);
         return Repository.delete(id);
     };
-}
+};
 
 module.exports = new FileTypeService();

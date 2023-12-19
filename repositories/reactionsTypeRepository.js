@@ -15,7 +15,7 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating reaction type');
-        }
+        };
     };
     async getById(id){
         return ReactionsType.findOne(
@@ -32,8 +32,8 @@ class Repository {
     };
     async delete (id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return ReactionsType.update(
+            await Sequelize.transaction(async (t) => {
+                await ReactionsType.update(
                     { is_active: false },
                     {
                         where: {id: id},
@@ -43,8 +43,8 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting reaction type');
-        }
+        };
     };
-}
+};
 
 module.exports = new Repository();

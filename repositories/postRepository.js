@@ -17,7 +17,7 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating post');
-        }
+        };
     };
     async getById(id){
         return Post.findOne(
@@ -34,8 +34,8 @@ class Repository {
     };
     async update(id, description, user_id, target_id, type_id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return Post.update(
+            await Sequelize.transaction(async (t) => {
+                await Post.update(
                     {
                         description: description,
                         user_id: user_id,
@@ -50,19 +50,19 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while updating post');
-        }
+        };
     };
     async delete (id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return await Post.destroy(
+            await Sequelize.transaction(async (t) => {
+                await Post.destroy(
                     { where: {id: id} }
                 );
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting post');
-        }
+        };
     };
-}
+};
 
 module.exports = new Repository();

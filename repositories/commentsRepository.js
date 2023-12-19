@@ -31,11 +31,10 @@ class Repository {
             { attributes: ['id', 'description', 'user_id', 'post_id', 'is_active'] }
         )
     };
-
     async update(id, description, user_id, post_id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return Comments.update(
+            await Sequelize.transaction(async (t) => {
+                await Comments.update(
                     {
                         description: description,
                         user_id: user_id,
@@ -49,12 +48,12 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while updating comment');
-        }
+        };
     };
     async delete (id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return Comments.update(
+            await Sequelize.transaction(async (t) => {
+                await Comments.update(
                     { is_active: false },
                     {
                         where: {id: id},
@@ -64,8 +63,8 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting comment');
-        }
+        };
     };
-}
+};
 
 module.exports = new Repository();

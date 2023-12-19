@@ -4,7 +4,7 @@ const httpStatus = require("../utils/statusCodes");
 const ApiError = require("../utils/ApiError");
 
 class Repository {
-    async createUser(full_name, email, hashedPassword) {
+    async create(full_name, email, hashedPassword) {
         try {
             return Sequelize.transaction(async (t) => {
                 return User.create(
@@ -16,7 +16,7 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while creating user');
-        }
+        };
     };
     async getByEmail(email) {
         try {
@@ -25,7 +25,7 @@ class Repository {
             );
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while getting e-mail');
-        }
+        };
     };
     async getById(id){
         return User.findOne(
@@ -42,8 +42,8 @@ class Repository {
     };
     async update(id, full_name, email) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return User.update(
+            await Sequelize.transaction(async (t) => {
+                await User.update(
                     { full_name: full_name, email: email },
                     {
                         where: {id: id},
@@ -53,13 +53,13 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while updating user');
-        }
+        };
     };
 
     async delete (id) {
         try {
-            return Sequelize.transaction(async (t) => {
-                return User.update(
+            await Sequelize.transaction(async (t) => {
+                await User.update(
                     { is_active: false },
                     {
                         where: {id: id},
@@ -69,8 +69,8 @@ class Repository {
             });
         } catch (error) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while deleting user');
-        }
+        };
     };
-}
+};
 
 module.exports = new Repository();

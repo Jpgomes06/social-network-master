@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require('../controller/userController');
-const Validations  = require('../middlewares/validationUser');
-const AuthValidations  = require('../middlewares/validationLogin');
-const userSchema = require('../validation/userValidation');
-const loginSchema = require('../validation/loginValidation');
+const validateSchema  = require('../middlewares/userValidation');
+const validateLogin  = require('../middlewares/validationLogin');
+const { createUserSchema, updateUserSchema, getByIdSchema, loginSchema } = require('../schemas/userValidation');
 
-router.get('/', UserController.getUsers);
-router.post('/', Validations.validation(userSchema), UserController.createUser);
-router.post('/login', AuthValidations.validation(loginSchema), UserController.loginUser);
-router.put('/:id', Validations.validation(userSchema), UserController.updateUser);
-router.delete('/:id', UserController.deleteUser);
-router.get('/:id', UserController.getUserById);
+router.post('/', validateSchema(createUserSchema), UserController.create);
+router.post('/login', validateLogin(loginSchema), UserController.loginUser);
 router.post('/refresh-token', UserController.createRefreshToken);
+router.get('/get-all', UserController.getAll);
+router.get('/:id', validateSchema(getByIdSchema), UserController.getById);
+router.put('/:id',validateSchema(updateUserSchema), UserController.update);
+router.delete('/:id', validateSchema(getByIdSchema),  UserController.delete);
 
 module.exports = router;

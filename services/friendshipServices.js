@@ -4,21 +4,21 @@ const httpStatus = require("../utils/statusCodes");
 const userService = require("./userServices");
 
 class FriendshipService {
-    async createFriendship(principal_user_id, friend_id) {
-        return Repository.createFriendship(principal_user_id, friend_id);
+    async create(principal_user_id, friend_id) {
+        return Repository.create(principal_user_id, friend_id);
     };
-    async getAllFriendships() {
+    async getAll() {
         return Repository.getAll();
     };
     async getById(id){
-        const friendship = await Repository.getById(id);
-        if (!friendship) throw new ApiError(httpStatus.NOT_FOUND, 'Friendship not found.');
-        return friendship;
+        const friendshipById = await Repository.getById(id);
+        if (!friendshipById) throw new ApiError(httpStatus.NOT_FOUND, 'Friendship not found.');
+        return friendshipById;
     };
-    async deleteFriendship(id) {
+    async delete(id) {
         await this.getById(id);
         return Repository.delete(id);
     };
-}
+};
 
 module.exports = new FriendshipService();
