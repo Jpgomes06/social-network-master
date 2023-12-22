@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controller/userController');
 const validateSchema  = require('../middlewares/userValidation');
-const validateLogin  = require('../middlewares/validationLogin');
+const validateLogin  = require('../middlewares/loginValidation');
 const { createUserSchema, updateUserSchema, getByIdSchema, loginSchema } = require('../schemas/userValidation');
 
 router.post('/', validateSchema(createUserSchema), UserController.create);
