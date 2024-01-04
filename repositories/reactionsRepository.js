@@ -1,12 +1,11 @@
-const Reactions = require('../models/reactions');
-const Sequelize = require('../db/models/db');
+const Reactions = require('../db/models');
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 
 class Repository {
     async create(user_id, reactions_type_id, post_id) {
         try {
-            return Sequelize.transaction(async (t) => {
+            return await Reactions.sequelize.transaction(async (t) => {
                 return Reactions.create(
                     {
                         user_id: user_id,
@@ -34,7 +33,7 @@ class Repository {
     };
     async update(id, user_id, reactions_type_id, post_id) {
         try {
-            await Sequelize.transaction(async (t) => {
+            await Reactions.sequelize.transaction(async (t) => {
                 await Reactions.update(
                     {
                         user_id: user_id,
@@ -53,7 +52,7 @@ class Repository {
     };
     async delete (id) {
         try {
-            await Sequelize.transaction(async(t) => {
+            await Reactions.sequelize.transaction(async(t) => {
                 await Reactions.update(
                     { is_active: false },
                     {

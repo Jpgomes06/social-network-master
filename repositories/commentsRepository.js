@@ -1,12 +1,11 @@
-const Comments = require('../models/comments');
-const Sequelize = require('../db/models/db');
+const Comments = require('../db/models');
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 
 class Repository {
     async create(description, user_id, post_id) {
         try {
-            return Sequelize.transaction(async (t) => {
+            return await Comments.sequelize.transaction(async (t) => {
                 return Comments.create(
                     {
                         description: description,
@@ -33,7 +32,7 @@ class Repository {
     };
     async update(id, description, user_id, post_id) {
         try {
-            await Sequelize.transaction(async (t) => {
+            await Comments.sequelize.transaction(async (t) => {
                 await Comments.update(
                     {
                         description: description,
@@ -52,7 +51,7 @@ class Repository {
     };
     async delete (id) {
         try {
-            await Sequelize.transaction(async (t) => {
+            await Comments.sequelize.transaction(async (t) => {
                 await Comments.update(
                     { is_active: false },
                     {

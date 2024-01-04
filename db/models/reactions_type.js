@@ -1,18 +1,22 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class reactions_type extends Model {
+  class ReactionsType extends Model {
     static associate(models) {
-      reactions_type.hasMany(models.reactions, { foreignKey: 'reactions_type_id'});
+      ReactionsType.belongsTo(models.Reactions, { foreignKey: 'reactions_type_id'});
     };
   };
-  reactions_type.init({
-    id: DataTypes.INTEGER,
+  ReactionsType.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     description: DataTypes.STRING,
     is_active: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'reactions_type',
+    modelName: 'ReactionsType',
   });
-  return reactions_type;
+  return ReactionsType;
 };

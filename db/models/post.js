@@ -4,11 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     static associate(models) {
         Post.belongsTo(models.User, { foreignKey: 'user_id'});
-        Post.belongsTo(models.Target_public, { foreignKey: 'target_id'});
-        Post.belongsTo(models.File_type, { foreignKey: 'type_id'});
-        Post.hasMany(models.album_item, { foreignKey: 'post_id'});
-        Post.hasMany(models.reactions, { foreignKey: 'post_id'});
-        Post.hasMany(models.comments, { foreignKey: 'post_id'});
+        Post.belongsTo(models.TargetPublic, { foreignKey: 'target_id'});
+        Post.belongsTo(models.FileType, { foreignKey: 'type_id'});
     };
   };
   Post.init({

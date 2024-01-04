@@ -1,12 +1,11 @@
-const Token = require('../models/token');
-const Sequelize = require('../db/models/db');
+const Token = require('../db/models');
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 
 class Repository {
     async createToken(token, user_id) {
         try {
-            return Sequelize.transaction(async (t) => {
+            return Token.sequelize.transaction(async (t) => {
                 return Token.create(
                     {
                         value: token,
@@ -24,7 +23,7 @@ class Repository {
     };
     async revokeTokenByUserId(userId){
         try {
-            return Sequelize.transaction(async (t) => {
+            return Token.sequelize.transaction(async (t) => {
                 return await Token.destroy(
                     {
                         where: {user_id: userId}
@@ -37,7 +36,7 @@ class Repository {
     }
     async updateById(id, newToken){
         try {
-            return Sequelize.transaction(async (t) => {
+            return Token.sequelize.transaction(async (t) => {
                 return Token.update({ value: newToken },
                     {
                         where: {id: id}

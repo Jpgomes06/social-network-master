@@ -1,18 +1,22 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Target_public extends Model {  
+  class TargetPublic extends Model {  
     static associate(models) {
-      Target_public.hasMany(models.Album, { foreignKey: 'id'});
+      TargetPublic.belongsTo(models.Album, { foreignKey: 'id'});
     };
   };
-  Target_public.init({
-    id: DataTypes.INTEGER,
+  TargetPublic.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     type: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'Target_public',
+    modelName: 'TargetPublic',
   });
-  return Target_public;
+  return TargetPublic;
 };

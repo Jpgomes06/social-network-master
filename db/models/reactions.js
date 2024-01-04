@@ -1,15 +1,19 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class reactions extends Model {    
+  class Reactions extends Model {    
     static associate(models) {
-      reactions.belongsTo(models.Post, { foreignKey: 'post_id'});
-      reactions.belongsTo(models.reactions_type, { foreignKey: 'reactions_type_id'});
-      reactions.belongsTo(models.User, { foreignKey: 'user_id'});
+      Reactions.belongsTo(models.Post, { foreignKey: 'post_id'});
+      Reactions.belongsTo(models.ReactionsType, { foreignKey: 'reactions_type_id'});
+      Reactions.belongsTo(models.User, { foreignKey: 'user_id'});
     };
   };
-  reactions.init({
-    id: DataTypes.INTEGER,
+  Reactions.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     user_id: DataTypes.INTEGER,
     reactions_type_id: DataTypes.INTEGER,
     post_id: DataTypes.INTEGER,
@@ -18,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     updated_at: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'reactions',
+    modelName: 'Reactions',
   });
-  return reactions;
+  return Reactions;
 };

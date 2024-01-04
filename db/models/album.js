@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
   class Album extends Model {
     static associate(models) {
       Album.belongsTo(models.TargetPublic, { foreignKey: 'target_id'});
-      Album.hasMany(models.album_item, { foreignKey: 'album_id'});      
     };
   };
   Album.init(

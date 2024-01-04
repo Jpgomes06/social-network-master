@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   FileType.init({
-    id: DataTypes.INTEGER,
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     type: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN
   }, {

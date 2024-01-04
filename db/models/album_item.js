@@ -1,14 +1,18 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class album_item extends Model {
+  class AlbumItem extends Model {
        static associate(models) {
-        album_item.belongsTo(models.Post, { foreignKey: 'post_id'});
-        album_item.belongsTo(models.Album, { foreignKey: 'album_id'});      
+        AlbumItem.belongsTo(models.Post, { foreignKey: 'post_id'});
+        AlbumItem.belongsTo(models.Album, { foreignKey: 'album_id'});      
     };
   };
-  album_item.init({
-    id: DataTypes.INTEGER,
+  AlbumItem.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     post_id: DataTypes.INTEGER,
     album_id: DataTypes.INTEGER,
     is_active: DataTypes.BOOLEAN,
@@ -16,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     updated_at: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'album_item',
+    modelName: 'AlbumItem',
   });
-  return album_item;
+  return AlbumItem;
 };

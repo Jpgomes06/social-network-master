@@ -1,12 +1,11 @@
-const ReactionsType = require('../models/reactions_type');
-const Sequelize = require('../db/models/db');
+const ReactionsType = require('../db/models');
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 
 class Repository {
     async create(description) {
         try {
-            return Sequelize.transaction(async (t) => {
+            return await ReactionsType.sequelize.transaction(async (t) => {
                 return ReactionsType.create(
                     { description },
                     { transaction: t }
@@ -31,7 +30,7 @@ class Repository {
     };
     async delete (id) {
         try {
-            await Sequelize.transaction(async (t) => {
+            await ReactionsType.sequelize.transaction(async (t) => {
                 await ReactionsType.update(
                     { is_active: false },
                     {

@@ -1,12 +1,11 @@
-const User = require('../models/users');
-const Sequelize = require('../db/models/db');
+const { User } = require('../db/models');
 const httpStatus = require("../utils/statusCodes");
 const ApiError = require("../utils/ApiError");
 
 class Repository {
     async create(full_name, email, hashedPassword) {
         try {
-            return Sequelize.transaction(async (t) => {
+            return await User.sequelize.transaction(async (t) => {
                 return User.create(
                     {
                         full_name: full_name,
@@ -24,7 +23,7 @@ class Repository {
                 { where: { email } }
             );
         } catch (error) {
-            throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR,'Error while getting e-mail');
+            throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error);
         };
     };
     async getById(id){
@@ -36,14 +35,14 @@ class Repository {
         );
     };
     async getAll(){
-        return User.findAll(
+        return findAll(
             { attributes: ['id', 'full_name', 'email', 'is_active'] }
         );
     };
     async update(id, full_name, email) {
         try {
-            await Sequelize.transaction(async (t) => {
-                await User.update(
+            await sequelize(async (t) => {
+                await update(
                     { full_name: full_name, email: email },
                     {
                         where: {id: id},
@@ -58,8 +57,8 @@ class Repository {
 
     async delete (id) {
         try {
-            await Sequelize.transaction(async (t) => {
-                await User.update(
+            await sequelize.transaction(async (t) => {
+                await update(
                     { is_active: false },
                     {
                         where: {id: id},

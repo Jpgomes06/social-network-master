@@ -1,14 +1,18 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class comments extends Model {
+  class Comments extends Model {
     static associate(models) {
-      comments.belongsTo(models.User, { foreignKey: 'user_id'});
-      comments.belongsTo(models.Post, { foreignKey: 'post_id'});
+      Comments.belongsTo(models.User, { foreignKey: 'user_id'});
+      Comments.belongsTo(models.Post, { foreignKey: 'post_id'});
     }
   }
-  comments.init({
-    id: DataTypes.INTEGER,
+  Comments.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     description: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
     post_id: DataTypes.INTEGER,
@@ -17,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     updated_at: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'comments',
+    modelName: 'Comments',
   });
-  return comments;
+  return Comments;
 };
