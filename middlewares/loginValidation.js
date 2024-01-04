@@ -11,7 +11,7 @@ const validation = (schema) => async (req, res, next) => {
         next();
     } catch (error) {
         throw new ApiError(httpStatus.BAD_REQUEST, error)
-    }
-}
+    };
+};
 
 module.exports = validation;

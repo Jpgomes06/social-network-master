@@ -1,5 +1,5 @@
 const Album = require('../models/album');
-const Sequelize = require('../models/db');
+const Sequelize = require('../db/models/db');
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 

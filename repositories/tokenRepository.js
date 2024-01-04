@@ -1,5 +1,5 @@
 const Token = require('../models/token');
-const Sequelize = require("../models/db");
+const Sequelize = require('../db/models/db');
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("../utils/statusCodes");
 

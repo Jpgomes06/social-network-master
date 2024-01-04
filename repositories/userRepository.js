@@ -1,5 +1,5 @@
 const User = require('../models/users');
-const Sequelize = require('../models/db');
+const Sequelize = require('../db/models/db');
 const httpStatus = require("../utils/statusCodes");
 const ApiError = require("../utils/ApiError");
 

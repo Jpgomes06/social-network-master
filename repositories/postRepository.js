@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 const httpStatus = require('../utils/statusCodes');
-const Sequelize = require('../models/db');
+const Sequelize = require('../db/models/db');
 const ApiError = require("../utils/ApiError");
 
 class Repository {
